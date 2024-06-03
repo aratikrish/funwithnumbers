@@ -1,0 +1,13 @@
+---
+title: " "
+about: 
+  template: trestles
+  image: pictures/20210717_101538.jpg
+  image-title: "Kenilworth Aquatic Gardens, Summer 2021"
+---
+
+This website will document some parts of my R and datascience learning journey
+
+and the occasional note on nature..
+
+*Did you know that LOTUS stands for the Law of the Unconscious Statistician?*
