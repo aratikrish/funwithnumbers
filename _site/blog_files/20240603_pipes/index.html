@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-05-25">
+<meta name="dcterms.date" content="2024-06-03">
 
-<title>Fun With Numbers - Slicing</title>
+<title>Fun With Numbers - Pipes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -142,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Slicing</h1>
+      <h1 class="title">Pipes</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">R</div>
               </div>
@@ -156,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 25, 2023</p>
+        <p class="date">June 3, 2024</p>
       </div>
     </div>
     
@@ -177,92 +143,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>So, we know about dplyr::filter() to chose rows based on a condition that you give within the filter command. So when would you need a dplyr::slice() instead?</p>
-<p>Lets consider <a href="https://www.dktinternational.org/wp-content/uploads/2023/06/Historical-CSM-Statistics-1991-2021-v2023.06.12.xlsx">this excel file</a> that gives the sales data for contraceptive social marketing programs from 1991 to present. If you want to know more about this data, here is the <a href="https://www.dktinternational.org/contraceptive-social-marketing-statistics/">DKT International website</a> that has all the details.</p>
-<p>Lets go ahead and import the data in this file into R.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(<span class="st">"tidyverse"</span>, </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">"here"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"rio"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>dkt_raw <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"blog_files"</span>,<span class="st">"20230525_dplyr_slice"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Historical-CSM-Statistics-1991-2021-v2023.06.12.xlsx"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Lets look at it - note that glimpse, which is my usual go to is not helpful here. View() from base R helps actually look through the dataframe</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(dkt_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 2,790
-Columns: 34
-$ ...1                                                    &lt;chr&gt; NA, NA, NA, NA…
-$ `Contraceptive SOCPial Marketing Statistics, 1991-2020` &lt;chr&gt; NA, "This spre…
-$ ...3                                                    &lt;dbl&gt; NA, NA, NA, NA…
-$ ...4                                                    &lt;dbl&gt; NA, NA, NA, NA…
-$ ...5                                                    &lt;chr&gt; NA, NA, NA, NA…
-$ ...6                                                    &lt;chr&gt; NA, NA, NA, NA…
-$ ...7                                                    &lt;dbl&gt; NA, NA, NA, NA…
-$ ...8                                                    &lt;chr&gt; NA, NA, NA, NA…
-$ ...9                                                    &lt;dbl&gt; NA, NA, NA, NA…
-$ ...10                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...11                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...12                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...13                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...14                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...15                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...16                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...17                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...18                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...19                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...20                                                   &lt;chr&gt; NA, NA, NA, NA…
-$ ...21                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...22                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...23                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...24                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...25                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...26                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...27                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ `Courtesy of`                                           &lt;chr&gt; "DKT Internati…
-$ ...29                                                   &lt;chr&gt; NA, NA, NA, NA…
-$ ...30                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...31                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...32                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...33                                                   &lt;dbl&gt; NA, NA, NA, NA…
-$ ...34                                                   &lt;dbl&gt; NA, NA, NA, NA…</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(dkt_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><img src="images/clipboard-2605266147.png" class="img-fluid"></p>
-<p>So the first 11 rows are pretty much useless and can be removed. For this, we could do</p>
-<p>dplyr::filter(row_number() &gt; 11</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dkt <span class="ot">&lt;-</span> dkt_raw <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(<span class="fu">row_number</span>() <span class="sc">&gt;</span> <span class="dv">11</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span> <span class="fu">View</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><img src="images/clipboard-2725663810.png" class="img-fluid"></p>
-<p>OR dplyr::slice(-(1:11))</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dkt <span class="ot">&lt;-</span> dkt_raw <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice</span>(<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)) </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span> <span class="fu">View</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><img src="images/clipboard-2725663810.png" class="img-fluid"></p>
-<p>Both have the same result. So whats the deal with needing a “slice” function?</p>
-<p>slice_ comes in handy when used with helpers:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="co">#gives the first row</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span> <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="co">#gives the last row</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="co">#randomly selects two rows</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span> <span class="fu">slice_min</span>(variableA, <span class="at">n =</span> <span class="dv">2</span>) <span class="co">#gives the rows with the 2 lowest values of variableA</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span> <span class="fu">slice_max</span>(variableA, <span class="at">n =</span> <span class="dv">3</span>) <span class="co">#gives the rows with the 2 highest values of variableA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Even cooler:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dkt <span class="sc">|&gt;</span>  <span class="fu">slice_max</span>(variableA, <span class="at">prop =</span> <span class="fl">0.1</span>) <span class="co">#gives the rows with the 10% highest values of variableA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>These are particularly useful when you want the entire row instead of just the highest or lowest value (which can be got using group_by and summarize).</p>
+<p>I’ve been looking through a lot of old code and therefore coming across our old friend the magrittr pipe %&gt;%. And while I loved this pipe when it was in use, I am tempted now to update all old code to the native pipe |&gt; that was introduced in R 4.1</p>
+<p>So should you switch from magrittr’s %&gt;% to base R’s |&gt; ?</p>
+<p>But before we even go there, if you see library(magrittr) in any old code that you need to use that also uses the tidyverse, please delete that line. Even if you decide that you need magrittr’s pipe, magrittr is now included in dplyr and therefore in tidyverse, so there is no need to call it separately.</p>
+<p>So that said, back to a comparison of pipes. Both <a href="https://r4ds.hadley.nz/data-transform#sec-the-pipe">R4DataScience</a> and this <a href="https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/">tidyverse blog article</a> provide a comparison of the two pipes and reasons to use one vs.&nbsp;the other.</p>
+<p>So it looks like for most cases the native pipe will do. Where it will not work is</p>
+<p>1) with functions that do not take the value passed as the first argument</p>
+<p>2) when you need to pass the value multiple times within a function (the tidyverse blog does a great job with examples for this</p>
+<p>3) if for some reason you have no arguments and want to drop the parenthesis after the function</p>
+<p>4) if you want to start a function with . after the pipe</p>
+<p>There is also the issue of using the native pipe in packages that need to work with versions older than R 4.1 but there are some techniques to get around this mentioned in the tidyverse blog post.</p>
+<p>So I guess the bottomline is let old code be; for new code - you could use either. I personally like the look of the native pipe and intend to use it unless I run into the situations listed above.</p>
 
 
 

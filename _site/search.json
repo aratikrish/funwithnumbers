@@ -18,7 +18,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Tableau dashboard rant\n\n\n\n\n\n\nTableau\n\n\n\n\n\n\n\n\n\nMay 30, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nSlicing\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe life altering magic of ALT SHIFT K\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe magic of Janitor\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\n\n\n\n\nNo matching items"
+    "text": "Pipes\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nJun 3, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nTableau dashboard rant\n\n\n\n\n\n\nTableau\n\n\n\n\n\n\n\n\n\nMay 30, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nSlicing\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nSlicing\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe life altering magic of ALT SHIFT K\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe magic of Janitor\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog_files/20240524_janitor/index.html",
@@ -54,5 +54,12 @@
     "title": "The life altering magic of ALT SHIFT K",
     "section": "",
     "text": "Try it out. Go to R-Studio and press ALT-SHIFT-K"
+  },
+  {
+    "objectID": "blog_files/20240603_pipes/index.html",
+    "href": "blog_files/20240603_pipes/index.html",
+    "title": "Pipes",
+    "section": "",
+    "text": "I’ve been looking through a lot of old code and therefore coming across our old friend the magrittr pipe %&gt;%. And while I loved this pipe when it was in use, I am tempted now to update all old code to the native pipe |&gt; that was introduced in R 4.1\nSo should you switch from magrittr’s %&gt;% to base R’s |&gt; ?\nBut before we even go there, if you see library(magrittr) in any old code that you need to use that also uses the tidyverse, please delete that line. Even if you decide that you need magrittr’s pipe, magrittr is now included in dplyr and therefore in tidyverse, so there is no need to call it separately.\nSo that said, back to a comparison of pipes. Both R4DataScience and this tidyverse blog article provide a comparison of the two pipes and reasons to use one vs. the other.\nSo it looks like for most cases the native pipe will do. Where it will not work is\n1) with functions that do not take the value passed as the first argument\n2) when you need to pass the value multiple times within a function (the tidyverse blog does a great job with examples for this\n3) if for some reason you have no arguments and want to drop the parenthesis after the function\n4) if you want to start a function with . after the pipe\nThere is also the issue of using the native pipe in packages that need to work with versions older than R 4.1 but there are some techniques to get around this mentioned in the tidyverse blog post.\nSo I guess the bottomline is let old code be; for new code - you could use either. I personally like the look of the native pipe and intend to use it unless I run into the situations listed above."
   }
 ]

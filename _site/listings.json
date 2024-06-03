@@ -2,7 +2,9 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/blog_files/20240603_pipes/index.html",
       "/blog_files/20240530_tableau dashboard/index.html",
+      "/blog_files/20230525_dplyr_slice/index.html",
       "/blog_files/20230525_dplyr_slice/index.html",
       "/blog_files/20230526_shortcuts/index.html",
       "/blog_files/20230524_janitor/index.html"
