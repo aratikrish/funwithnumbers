@@ -1,0 +1,65 @@
+---
+title: "The magic of Janitor"
+date: 05-24-2023
+categories: [R] # self-defined categories
+image: janitor.jpg
+draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
+---
+
+Given my love for organizing, what better way to start this blog than with a post about [Janitor](https://github.com/sfirke/janitor), the R package to clean dirty data ! Janitor helps clean up data frame column names and provide other tools to examine and clean data frames. Per the documentation it also helps create frequency tables for variables, though I have not used that functionality.
+
+1.  I imported an excel file and the resulting data frame has horrendous columns! how do i clean them?
+
+    ![](janitor.jpg) *Artwork by [\@allison_horst](https://twitter.com/allison_horst)*
+
+    There was a time decades ago when I would write lines of code to do this. (Janitor has been around almost 8 years now). Now, I use janitor::clean_names()
+
+2.  The excel file has column headings in row 11. The rows above contain data that I need.
+
+    Use janitor::row_to_names(row_number = 11, remove_rows_above = FALSE) - This will elevate row 11 to be the header, ie be the column names
+
+3.  Finding the row with header names - searching for the first non null row or looking for a row iwth a specific value in the first column
+
+    janitor::find_header()
+
+4.  How about those annoying blank rows that need to be removed?
+
+    janitor::remove_empty(which = "rows")
+
+5.  How do you compare dataframe columns before doing a bind_rows
+
+    janitor::compare_df_cols()
+
+6.  Count and percentage of combinations of one , two and three variables
+
+    janitor::tabyl() with adorn\*
+
+7.  Check for rows with duplicated values of specific combination of variables
+
+    janitor::get_dupes(column1, column2)
+
+8.  Drop columns with a constant value
+
+    janitor::remove_constant()
+
+9.  Rounding behavior as expected (base R uses banker's rounding)
+
+    janitor::round_half_up()
+
+10. Fix dates stored as serial numbers in excel (!)
+
+    janitor::excel_numeric_to_date() or better still janitor::convert_to_date() - the latter being more robust with a mix of inputs
+
+Other functions that I have not explored yet:
+
+-   get_one_to_one()
+
+-   make_clean_names()
+
+-   single_value()
+
+-   round_to_fraction()
+
+-   top_levels()
+
+Such a great package!

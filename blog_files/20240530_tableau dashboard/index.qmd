@@ -1,0 +1,32 @@
+---
+title: "Tableau dashboard rant"
+date: 05-30-2024
+categories: [Tableau] # self-defined categories
+draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
+---
+
+Ever been in a situation where you have multiple charts and other objects on a Tableau dashboard and you'd like to change the format of all of their titles so it all fits a little better and looks cleaner?
+
+I have been there multiple times.
+
+And am yet to figure out a way to update all the titles at the same time, without having to edit each title separately.
+
+I figured I could use Dashboard -\> Format
+
+![](dashboard.png)
+
+and then use the "Worksheet Titles" and "Text Objects" to change the font of all the titles in one shot. But no, did not work - Here for example, I chose Calibri, 8pt, orange for Worksheet Titles, but they all remained what they were. Changing the "shading" seems to change it on the worksheets though.
+
+For "Text Objects" changing size works but changing color or font type does not.
+
+And I see no way to change the format of axis labels all at once.
+
+So it seems like the only way would be to manually change each chart one at a time? sigh...
+
+UPDATE:
+
+I THINK I FOUND A SOLUTION (AFTER ANOTHER 30MINS OF GOOGLING) !!!
+
+Going to Format -\> Workbook and altering the settings on there seems to do the trick! So my conclusion is that Tableau does not recognize these worksheets as dashboard objects, hence the Format -\> Dashboard or Dashboard -\> Format does not change anything. But changing overall workbook options makes changes in every worksheet.
+
+![](dashboard2.png)

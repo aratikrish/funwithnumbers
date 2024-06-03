@@ -1,0 +1,10 @@
+---
+title: "The life altering magic of ALT SHIFT K"
+date: 05-25-2023
+categories: [R] # self-defined categories
+draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
+---
+
+Try it out. Go to R-Studio and press ALT-SHIFT-K
+
+![](ALTSHIFTK.png)

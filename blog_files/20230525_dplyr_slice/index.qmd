@@ -1,0 +1,82 @@
+---
+title: "Slicing"
+date: 05-25-2023
+categories: [R] # self-defined categories
+draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
+---
+
+So, we know about dplyr::filter() to chose rows based on a condition that you give within the filter command. So when would you need a dplyr::slice() instead?
+
+Lets consider [this excel file](https://www.dktinternational.org/wp-content/uploads/2023/06/Historical-CSM-Statistics-1991-2021-v2023.06.12.xlsx) that gives the sales data for contraceptive social marketing programs from 1991 to present. If you want to know more about this data, here is the [DKT International website](https://www.dktinternational.org/contraceptive-social-marketing-statistics/) that has all the details.
+
+Lets go ahead and import the data in this file into R.
+
+```{r DKT Import Data}
+#| warning: false
+
+pacman::p_load("tidyverse", 
+               "here",
+               "rio")
+dkt_raw <- rio::import(here("blog_files","20230525_dplyr_slice",
+                       "Historical-CSM-Statistics-1991-2021-v2023.06.12.xlsx")
+                  )
+
+```
+
+Lets look at it - note that glimpse, which is my usual go to is not helpful here. View() from base R helps actually look through the dataframe
+
+```{r}
+glimpse(dkt_raw)
+```
+
+```{r}
+View(dkt_raw)
+```
+
+![](images/clipboard-2605266147.png)
+
+So the first 11 rows are pretty much useless and can be removed. For this, we could do
+
+dplyr::filter(row_number() \> 11
+
+```{r}
+dkt <- dkt_raw |> 
+        filter(row_number() > 11)
+dkt |> View()
+```
+
+![](images/clipboard-2725663810.png)
+
+OR dplyr::slice(-(1:11))
+
+```{r}
+dkt <- dkt_raw |> 
+        slice(-(1:11)) 
+dkt |> View()
+```
+
+![](images/clipboard-2725663810.png)
+
+Both have the same result. So whats the deal with needing a "slice" function?
+
+slice\_ comes in handy when used with helpers:
+
+```{r demonstrate_slice}
+#| eval: false 
+
+dkt |> slice_head(n = 1) #gives the first row
+dkt |> slice_tail(n = 1) #gives the last row
+dkt |> slice_sample(n = 2) #randomly selects two rows
+dkt |> slice_min(variableA, n = 2) #gives the rows with the 2 lowest values of variableA
+dkt |> slice_max(variableA, n = 3) #gives the rows with the 2 highest values of variableA
+```
+
+Even cooler:
+
+```{r}
+#| eval: false 
+
+dkt |>  slice_max(variableA, prop = 0.1) #gives the rows with the 10% highest values of variableA
+```
+
+These are particularly useful when you want the entire row instead of just the highest or lowest value (which can be got using group_by and summarize).
