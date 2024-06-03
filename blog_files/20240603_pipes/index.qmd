@@ -1,5 +1,5 @@
 ---
-title: "Piped"
+title: "Pipes"
 date: 06-03-2024
 categories: [R] # self-defined categories
 draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
