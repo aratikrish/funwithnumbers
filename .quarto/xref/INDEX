@@ -1,0 +1,35 @@
+{
+  "about.qmd": {
+    "about.html": "68d34d02"
+  },
+  "index.qmd": {
+    "index.html": "ae1dfef2"
+  },
+  "janitor.qmd": {
+    "janitor.html": "c10748f2"
+  },
+  "blog.qmd": {
+    "blog.html": "b55b3bfa"
+  },
+  "blog_files/20240524_janitor/index.qmd": {
+    "index.html": "7b42b5d9"
+  },
+  "blog_files/20240530_tableau dashboard/index.qmd": {
+    "index.html": "d5150dd8"
+  },
+  "blog_files/20240525_dplyr_slice/index.qmd": {
+    "index.html": "8c57ac6c"
+  },
+  "blog_files/20240526_shortcuts/index.qmd": {
+    "index.html": "3bf926ce"
+  },
+  "blog_files/20230524_janitor/index.qmd": {
+    "index.html": "ce9c0b9c"
+  },
+  "blog_files/20230525_dplyr_slice/index.qmd": {
+    "index.html": "d67da5c6"
+  },
+  "blog_files/20230526_shortcuts/index.qmd": {
+    "index.html": "46a4dd3a"
+  }
+}

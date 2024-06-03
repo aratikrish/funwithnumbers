@@ -1,0 +1,15 @@
+{
+  "hash": "e80a6bea9acf11564fe93044c89c4143",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Fun With Numbers\"\nabout: \n  template: trestles\n  image: pictures/20170831_130652.jpg\n  links: \n    - icon: linkedin\n      text: LinkedIn\n      href: https://www.linkedin.com/in/aratikrishnamoorthy/\n---\n\n\nThis is a Quarto website.\n\nTo learn more about Quarto websites visit <https://quarto.org/docs/websites>.\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

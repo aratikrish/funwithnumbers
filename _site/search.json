@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Fun With Numbers",
+    "section": "",
+    "text": "This website will document some parts of my R and datascience learning journey\nand the occasional note on nature..\nDid you know that LOTUS stands for the Law of the Unconscious Statistician?"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This website will document some parts of my R and data science journey."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Tableau dashboard rant\n\n\n\n\n\n\nTableau\n\n\n\n\n\n\n\n\n\nMay 30, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nSlicing\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe life altering magic of ALT SHIFT K\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe magic of Janitor\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "blog_files/20240524_janitor/index.html",
+    "href": "blog_files/20240524_janitor/index.html",
+    "title": "The magic of Janitor",
+    "section": "",
+    "text": "Given my love for organizing, what better way to start this blog than with a post about Janitor, the R package to clean dirty data ! Janitor helps clean up data frame column names and provide other tools to examine and clean data frames. Per the documentation it also helps create frequency tables for variables, though I have not used that functionality.\n\nI imported an excel file and the resulting data frame has horrendous columns! how do i clean them?\n Artwork by @allison_horst\nThere was a time decades ago when I would write lines of code to do this. (Janitor has been around almost 8 years now). Now, I use janitor::clean_names()\nThe excel file has column headings in row 11. The rows above contain data that I need.\nUse janitor::row_to_names(row_number = 11, remove_rows_above = FALSE) - This will elevate row 11 to be the header, ie be the column names\nFinding the row with header names - searching for the first non null row or looking for a row iwth a specific value in the first column\njanitor::find_header()\nHow about those annoying blank rows that need to be removed?\njanitor::remove_empty(which = “rows”)\nHow do you compare dataframe columns before doing a bind_rows\njanitor::compare_df_cols()\nCount and percentage of combinations of one , two and three variables\njanitor::tabyl() with adorn*\nCheck for rows with duplicated values of specific combination of variables\njanitor::get_dupes(column1, column2)\nDrop columns with a constant value\njanitor::remove_constant()\nRounding behavior as expected (base R uses banker’s rounding)\njanitor::round_half_up()\nFix dates stored as serial numbers in excel (!)\njanitor::excel_numeric_to_date() or better still janitor::convert_to_date() - the latter being more robust with a mix of inputs\n\nOther functions that I have not explored yet:\n\nget_one_to_one()\nmake_clean_names()\nsingle_value()\nround_to_fraction()\ntop_levels()\n\nSuch a great package!"
+  },
+  {
+    "objectID": "blog_files/20240530_tableau dashboard/index.html",
+    "href": "blog_files/20240530_tableau dashboard/index.html",
+    "title": "Tableau dashboard rant",
+    "section": "",
+    "text": "Ever been in a situation where you have multiple charts and other objects on a Tableau dashboard and you’d like to change the format of all of their titles so it all fits a little better and looks cleaner?\nI have been there multiple times.\nAnd am yet to figure out a way to update all the titles at the same time, without having to edit each title separately.\nI figured I could use Dashboard -&gt; Format\n\nand then use the “Worksheet Titles” and “Text Objects” to change the font of all the titles in one shot. But no, did not work - Here for example, I chose Calibri, 8pt, orange for Worksheet Titles, but they all remained what they were. Changing the “shading” seems to change it on the worksheets though.\nFor “Text Objects” changing size works but changing color or font type does not.\nAnd I see no way to change the format of axis labels all at once.\nSo it seems like the only way would be to manually change each chart one at a time? sigh…\nUPDATE:\nI THINK I FOUND A SOLUTION (AFTER ANOTHER 30MINS OF GOOGLING) !!!\nGoing to Format -&gt; Workbook and altering the settings on there seems to do the trick! So my conclusion is that Tableau does not recognize these worksheets as dashboard objects, hence the Format -&gt; Dashboard or Dashboard -&gt; Format does not change anything. But changing overall workbook options makes changes in every worksheet."
+  },
+  {
+    "objectID": "blog_files/20240526_shortcuts/index.html",
+    "href": "blog_files/20240526_shortcuts/index.html",
+    "title": "The life altering magic of ALT SHIFT K",
+    "section": "",
+    "text": "Try it out. Go to R-Studio and press ALT-SHIFT-K"
+  },
+  {
+    "objectID": "blog_files/20230525_dplyr_slice/index.html",
+    "href": "blog_files/20230525_dplyr_slice/index.html",
+    "title": "Slicing",
+    "section": "",
+    "text": "So, we know about dplyr::filter() to chose rows based on a condition that you give within the filter command. So when would you need a dplyr::slice() instead?\nLets consider this excel file that gives the sales data for contraceptive social marketing programs from 1991 to present. If you want to know more about this data, here is the DKT International website that has all the details.\nLets go ahead and import the data in this file into R.\n\npacman::p_load(\"tidyverse\", \n               \"here\",\n               \"rio\")\ndkt_raw &lt;- rio::import(here(\"blog_files\",\"20230525_dplyr_slice\",\n                       \"Historical-CSM-Statistics-1991-2021-v2023.06.12.xlsx\")\n                  )\n\nLets look at it - note that glimpse, which is my usual go to is not helpful here. View() helps actually look through the dataframe\n\nglimpse(dkt_raw)\n\nRows: 2,790\nColumns: 34\n$ ...1                                                    &lt;chr&gt; NA, NA, NA, NA…\n$ `Contraceptive SOCPial Marketing Statistics, 1991-2020` &lt;chr&gt; NA, \"This spre…\n$ ...3                                                    &lt;dbl&gt; NA, NA, NA, NA…\n$ ...4                                                    &lt;dbl&gt; NA, NA, NA, NA…\n$ ...5                                                    &lt;chr&gt; NA, NA, NA, NA…\n$ ...6                                                    &lt;chr&gt; NA, NA, NA, NA…\n$ ...7                                                    &lt;dbl&gt; NA, NA, NA, NA…\n$ ...8                                                    &lt;chr&gt; NA, NA, NA, NA…\n$ ...9                                                    &lt;dbl&gt; NA, NA, NA, NA…\n$ ...10                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...11                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...12                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...13                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...14                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...15                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...16                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...17                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...18                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...19                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...20                                                   &lt;chr&gt; NA, NA, NA, NA…\n$ ...21                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...22                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...23                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...24                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...25                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...26                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...27                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ `Courtesy of`                                           &lt;chr&gt; \"DKT Internati…\n$ ...29                                                   &lt;chr&gt; NA, NA, NA, NA…\n$ ...30                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...31                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...32                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...33                                                   &lt;dbl&gt; NA, NA, NA, NA…\n$ ...34                                                   &lt;dbl&gt; NA, NA, NA, NA…\n\n\n\nView(dkt_raw)\n\n\nSo the first 11 rows are pretty much useless and can be removed. For this, we could do\ndplyr::filter(row_number() &gt; 11\n\ndkt &lt;- dkt_raw |&gt; \n        filter(row_number() &gt; 11)\ndkt |&gt; View()\n\n\nOR dplyr::slice(-(1:11))\n\ndkt &lt;- dkt_raw |&gt; \n        slice(-(1:11)) \ndkt |&gt; View()\n\n\nBoth have the same result. So whats the deal with needing a “slice” function?\nslice_ comes in handy when used with helpers:\n\ndkt |&gt; slice_head(n = 1) #gives the first row\ndkt |&gt; slice_tail(n = 1) #gives the last row\ndkt |&gt; slice_sample(n = 2) #randomly selects two rows\ndkt |&gt; slice_min(variableA, n = 2) #gives the rows with the 2 lowest values of variableA\ndkt |&gt; slice_max(variableA, n = 3) #gives the rows with the 2 highest values of variableA\n\nEven cooler:\n\ndkt |&gt;  slice_max(variableA, prop = 0.1) #gives the rows with the 10% highest values of variableA\n\nThese are particularly useful when you want the entire row instead of just the highest or lowest value (which can be got using group_by and summarize)."
+  },
+  {
+    "objectID": "blog_files/20230526_shortcuts/index.html",
+    "href": "blog_files/20230526_shortcuts/index.html",
+    "title": "The life altering magic of ALT SHIFT K",
+    "section": "",
+    "text": "Try it out. Go to R-Studio and press ALT-SHIFT-K"
+  }
+]
