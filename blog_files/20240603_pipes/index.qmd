@@ -1,0 +1,28 @@
+---
+title: "Piped"
+date: 06-03-2024
+categories: [R] # self-defined categories
+draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
+---
+
+I've been looking through a lot of old code and therefore coming across our old friend the magrittr pipe %\>%. And while I loved this pipe when it was in use, I am tempted now to update all old code to the native pipe \|\> that was introduced in R 4.1
+
+So should you switch from magrittr's %\>% to base R's \|\> ?
+
+But before we even go there, if you see library(magrittr) in any old code that you need to use that also uses the tidyverse, please delete that line. Even if you decide that you need magrittr's pipe, magrittr is now included in dplyr and therefore in tidyverse, so there is no need to call it separately.
+
+So that said, back to a comparison of pipes. Both [R4DataScience](https://r4ds.hadley.nz/data-transform#sec-the-pipe) and this [tidyverse blog article](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) provide a comparison of the two pipes and reasons to use one vs. the other.
+
+So it looks like for most cases the native pipe will do. Where it will not work is
+
+1\) with functions that do not take the value passed as the first argument
+
+2\) when you need to pass the value multiple times within a function (the tidyverse blog does a great job with examples for this
+
+3\) if for some reason you have no arguments and want to drop the parenthesis after the function
+
+4\) if you want to start a function with . after the pipe
+
+There is also the issue of using the native pipe in packages that need to work with versions older than R 4.1 but there are some techniques to get around this mentioned in the tidyverse blog post.
+
+So I guess the bottomline is let old code be; for new code - you could use either. I personally like the look of the native pipe and intend to use it unless I run into the situations listed above.
