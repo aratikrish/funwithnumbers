@@ -48,7 +48,9 @@ Given my love for organizing, what better way to start this blog than with a pos
 
 10. Fix dates stored as serial numbers in excel (!)
 
-    janitor::excel_numeric_to_date() or better still janitor::convert_to_date() - the latter being more robust with a mix of inputs
+    janitor::excel_numeric_to_date() or better still -
+
+    janitor::convert_to_date() - this is more robust with a mix of inputs, so helpful when you have a column from excel that has dates in multiple formats, including as a serial number.
 
 Other functions that I have not explored yet:
 

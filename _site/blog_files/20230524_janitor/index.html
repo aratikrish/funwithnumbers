@@ -165,7 +165,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Rounding behavior as expected (base R uses banker’s rounding)</p>
 <p>janitor::round_half_up()</p></li>
 <li><p>Fix dates stored as serial numbers in excel (!)</p>
-<p>janitor::excel_numeric_to_date() or better still janitor::convert_to_date() - the latter being more robust with a mix of inputs</p></li>
+<p>janitor::excel_numeric_to_date() or better still -</p>
+<p>janitor::convert_to_date() - this is more robust with a mix of inputs, so helpful when you have a column from excel that has dates in multiple formats, including as a serial number.</p></li>
 </ol>
 <p>Other functions that I have not explored yet:</p>
 <ul>

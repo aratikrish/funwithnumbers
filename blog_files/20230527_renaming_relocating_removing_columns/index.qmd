@@ -1,0 +1,42 @@
+---
+title: "Renaming, Relocating & Removing Columns"
+date: 05-27-2023
+categories: [R] # self-defined categories
+draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
+---
+
+The two functions I use to rename columns are dplyr::rename() and dplyr::rename_with()
+
+rename() is good for when you need to manually code in the new name
+
+```{r}
+#| eval: false 
+sampledf <- sampledf |> 
+  rename(
+    # NEW = OLD
+    country     = country_name,
+    supply_plan = supply_plan_description
+  )
+```
+
+rename_with() is for when you need to use a function to rename columns. For example if you want to pick all columns that end with "\_supply_plan", remove that suffix and add the prefix "value\_" this is what you would do:
+
+```{r}
+#| eval: false 
+
+sampledf <- sampledf |> 
+  rename_with(
+    ~ str_c("value_",
+             str_remove(.x,"_supply_plan")
+    ),
+    .cols = ends_with("_supply_plan")
+  )
+```
+
+Note the use of the [tidyselect](https://tidyselect.r-lib.org/reference/language.html) ends_with instead of base R endswith. No difference in this case between the two but the tidyselect function is more versatile as it includes an ignore.case argument.
+
+Older code often has paste or paste0 to concatenate strings. Here I use stringr::str_c instead.
+
+**Relocating columns** can be done with dplyr::relocate() with [tidy-select](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html).
+
+**Removing columns** is easy with dplyr::select(! column_name)
