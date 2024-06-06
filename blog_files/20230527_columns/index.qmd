@@ -1,9 +1,11 @@
 ---
-title: "Renaming, Relocating & Removing Columns"
+title: "Column Operations"
 date: 05-27-2023
 categories: [R] # self-defined categories
 draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
 ---
+
+#### Renaming Columns
 
 The two functions I use to rename columns are dplyr::rename() and dplyr::rename_with()
 
@@ -37,6 +39,29 @@ Note the use of the [tidyselect](https://tidyselect.r-lib.org/reference/language
 
 Older code often has paste or paste0 to concatenate strings. Here I use stringr::str_c instead.
 
-**Relocating columns** can be done with dplyr::relocate() with [tidy-select](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html).
+#### **Relocating columns**
 
-**Removing columns** is easy with dplyr::select(! column_name)
+can be done with dplyr::relocate() with [tidy-select](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html).
+
+#### **Removing columns**
+
+is easy with dplyr::select(! column_name)
+
+#### Applying a function to multiple columns
+
+is done using dplyr::across()
+
+```{r}
+#|eval:false
+
+sampledf <- sampledf |> 
+  mutate(across(.cols = im_number:im_funding, 
+                .fns = \(x) str_remove_all(x, "@|:@")),
+         
+         across(.cols = where(is.POSIXct), 
+                .fns = \(x) as_date(x))
+  )
+            
+```
+
+Note the use of \\(x) instead of the older \~. to start an unnamed function
