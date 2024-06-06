@@ -52,7 +52,7 @@ is easy with dplyr::select(! column_name)
 is done using dplyr::across()
 
 ```{r}
-#|eval:false
+#| eval: false
 
 sampledf <- sampledf |> 
   mutate(across(.cols = im_number:im_funding, 
