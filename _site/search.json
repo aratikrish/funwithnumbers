@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Fun With Numbers",
     "section": "",
-    "text": "This website will document some parts of my R and datascience learning journey\nand the occasional note on nature..\nDid you know that LOTUS stands for the Law of the Unconscious Statistician?"
+    "text": "This website will document some parts of my R and datascience learning journey.\nand the occasional note on nature..\nDid you know that LOTUS stands for the Law of the Unconscious Statistician?"
   },
   {
     "objectID": "about.html",
@@ -18,7 +18,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Pipes\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nJun 3, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nTableau dashboard rant\n\n\n\n\n\n\nTableau\n\n\n\n\n\n\n\n\n\nMay 30, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nRenaming, Relocating & Removing Columns\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 27, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nSlicing\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe life altering magic of ALT SHIFT K\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe magic of Janitor\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\n\n\n\n\nNo matching items"
+    "text": "Pipes\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nJun 3, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nTableau dashboard rant\n\n\n\n\n\n\nTableau\n\n\n\n\n\n\n\n\n\nMay 30, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nColumn Operations\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 27, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nSlicing\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe life altering magic of ALT SHIFT K\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 25, 2023\n\n\n\n\n\n\n\n\n\n\n\n\nThe magic of Janitor\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\nMay 24, 2023\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog_files/20240524_janitor/index.html",
@@ -68,5 +68,12 @@
     "title": "Renaming, Relocating & Removing Columns",
     "section": "",
     "text": "The two functions I use to rename columns are dplyr::rename() and dplyr::rename_with()\nrename() is good for when you need to manually code in the new name\n\nsampledf &lt;- sampledf |&gt; \n  rename(\n    # NEW = OLD\n    country     = country_name,\n    supply_plan = supply_plan_description\n  )\n\nrename_with() is for when you need to use a function to rename columns. For example if you want to pick all columns that end with “_supply_plan”, remove that suffix and add the prefix “value_” this is what you would do:\n\nsampledf &lt;- sampledf |&gt; \n  rename_with(\n    ~ str_c(\"value_\",\n             str_remove(.x,\"_supply_plan\")\n    ),\n    .cols = ends_with(\"_supply_plan\")\n  )\n\nNote the use of the tidyselect ends_with instead of base R endswith. No difference in this case between the two but the tidyselect function is more versatile as it includes an ignore.case argument.\nOlder code often has paste or paste0 to concatenate strings. Here I use stringr::str_c instead.\nRelocating columns can be done with dplyr::relocate() with tidy-select.\nRemoving columns is easy with dplyr::select(! column_name)"
+  },
+  {
+    "objectID": "blog_files/20230527_columns/index.html",
+    "href": "blog_files/20230527_columns/index.html",
+    "title": "Column Operations",
+    "section": "",
+    "text": "Renaming Columns\nThe two functions I use to rename columns are dplyr::rename() and dplyr::rename_with()\nrename() is good for when you need to manually code in the new name\n\nsampledf &lt;- sampledf |&gt; \n  rename(\n    # NEW = OLD\n    country     = country_name,\n    supply_plan = supply_plan_description\n  )\n\nrename_with() is for when you need to use a function to rename columns. For example if you want to pick all columns that end with “_supply_plan”, remove that suffix and add the prefix “value_” this is what you would do:\n\nsampledf &lt;- sampledf |&gt; \n  rename_with(\n    ~ str_c(\"value_\",\n             str_remove(.x,\"_supply_plan\")\n    ),\n    .cols = ends_with(\"_supply_plan\")\n  )\n\nNote the use of the tidyselect ends_with instead of base R endswith. No difference in this case between the two but the tidyselect function is more versatile as it includes an ignore.case argument.\nOlder code often has paste or paste0 to concatenate strings. Here I use stringr::str_c instead.\n\n\nRelocating columns\ncan be done with dplyr::relocate() with tidy-select.\n\n\nRemoving columns\nis easy with dplyr::select(! column_name)\n\n\nApplying a function to multiple columns\nis done using dplyr::across()\n\nsampledf &lt;- sampledf |&gt; \n  mutate(across(.cols = im_number:im_funding, \n                .fns = \\(x) str_remove_all(x, \"@|:@\")),\n         \n         across(.cols = where(is.POSIXct), \n                .fns = \\(x) as_date(x))\n  )\n\nNote the use of \\(x) instead of the older ~. to start an unnamed function"
   }
 ]

@@ -6,7 +6,7 @@ about:
   image-title: "Kenilworth Aquatic Gardens, Summer 2021"
 ---
 
-This website will document some parts of my R and datascience learning journey
+This website will document some parts of my R and datascience learning journey.
 
 and the occasional note on nature..
 
