@@ -1,0 +1,27 @@
+---
+title: "Count"
+date: 06-04-2024
+categories: [R] # self-defined categories
+draft: false # setting this to \`true\` will prevent your post from appearing on your listing page until you're ready!
+---
+
+A short post about dplyr::count() - a handy alternative to group_by() and summarize(n = n()). Has a .sort argument that defaults to FALSE and a .drop argument that defaults to FALSE.
+
+```{r}
+#| eval: false
+
+sampledf |>
+  count(data_source, item_tracer_category)
+
+# To sort by the count, use this:
+
+sampledf |>
+  count(data_source, item_tracer_category, sort = TRUE)
+
+# To sort by the variable names first and then by the count, go back to using arrange:
+
+sampledf |>
+  count(data_source, item_tracer_category) |> 
+  arrange(data_source, item_tracer_category, desc(n))
+
+```
